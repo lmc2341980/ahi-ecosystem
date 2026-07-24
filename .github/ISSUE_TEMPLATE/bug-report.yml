@@ -1,0 +1,85 @@
+name: "🐛 Bug Report / Báo cáo lỗi"
+description: "File a bug report to help us improve AHI Ecosystem / Báo cáo lỗi để cải thiện Hệ sinh thái AHI"
+title: "[Bug]: "
+labels: ["bug", "triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report a bug! Please fill out the form below as accurately as possible.
+        *Cảm ơn bạn đã dành thời gian báo lỗi! Vui lòng điền vào biểu mẫu dưới đây một cách chính xác nhất.*
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: "Affected Component / Thành phần bị ảnh hưởng"
+      description: "Which part of the AHI Ecosystem is experiencing the issue? (Chọn thành phần bị lỗi)"
+      multiple: false
+      options:
+        - "AHI Core Engine"
+        - "Cloud SaaS Platform"
+        - "Enterprise On-Premise Package"
+        - "API / Documentation"
+        - "Other / Khác"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "Bug Description / Mô tả lỗi"
+      description: "A clear and concise description of what the bug is. (Mô tả rõ ràng và ngắn gọn về lỗi gặp phải)"
+      placeholder: "E.g., The system crashes when processing hybrid models with large datasets..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: "Steps to Reproduce / Các bước tái hiện lỗi"
+      description: "Steps to reproduce the behavior. (Chỉ ra các bước cụ thể để chạy lại cấu hình bị lỗi)"
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: "Expected Behavior / Hành vi mong muốn"
+      description: "A clear description of what you expected to happen. (Mô tả những gì bạn mong đợi hệ thống thực hiện đúng)"
+      placeholder: "E.g., The model should return the combined accuracy output without timeout."
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: "Environment Details / Thông tin môi trường hệ thống"
+      description: "OS, Runtime Version, Hardware specs if applicable. (Hệ điều hành, phiên bản môi trường, cấu hình phần cứng)"
+      placeholder: "E.g., Ubuntu 22.04, Python 3.11, NVIDIA RTX 4090, Cloud SaaS / On-premise v1.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: "Relevant Logs or Screenshots / File Log hoặc Ảnh chụp màn hình"
+      description: "Please paste any error logs or drag-and-drop screenshots here. (Dán mã lỗi log hoặc kéo thả ảnh chụp màn hình vào đây)"
+      placeholder: "Copy and paste terminal output or stack traces here..."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checkboxes
+    attributes:
+      label: "Code of Conduct & CLA Compliance / Cam kết quy chuẩn"
+      description: "Before submitting, please check the following: (Trước khi gửi, vui lòng xác nhận)"
+      options:
+        - label: "I have searched existing issues and this is not a duplicate. (Tôi đã tìm kiếm các issue hiện tại và đây không phải lỗi trùng lặp)"
+          required: true
+        - label: "I agree to sign the CLA if I submit a Pull Request to fix this. (Tôi đồng ý ký thỏa thuận CLA nếu tôi gửi Pull Request để sửa lỗi này)"
