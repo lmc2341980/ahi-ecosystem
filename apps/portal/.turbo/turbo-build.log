@@ -1,0 +1,34 @@
+
+> @ahi/portal@0.1.0 build /tmp/cc-agent/69138922/project/apps/portal
+> next build
+
+   ▲ Next.js 15.5.21
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 6.1s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/4) ...
+   Generating static pages (1/4) 
+   Generating static pages (2/4) 
+   Generating static pages (3/4) 
+ ✓ Generating static pages (4/4)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ○ /                                    3.45 kB         106 kB
+├ ○ /_not-found                            996 B         104 kB
+├ ƒ /ai                                    133 B         103 kB
+├ ƒ /erp                                   133 B         103 kB
+├ ƒ /knowledge                             133 B         103 kB
+└ ƒ /organizations                         133 B         103 kB
++ First Load JS shared by all             103 kB
+  ├ chunks/855b6565-221baf847127e0cd.js  54.2 kB
+  ├ chunks/881-e4a04159f8edfbb6.js       46.4 kB
+  └ other shared chunks (total)           1.9 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

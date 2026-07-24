@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "composite": true,
+    "paths": {
+      "@ahi/shared": ["../shared/src"],
+      "@ahi/shared/*": ["../shared/src/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["dist", "node_modules"],
+  "references": [{ "path": "../shared" }]
+}

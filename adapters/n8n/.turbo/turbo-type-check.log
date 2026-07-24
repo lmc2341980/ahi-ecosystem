@@ -1,0 +1,4 @@
+
+> @ahi/adapter-n8n@0.1.0 type-check /tmp/cc-agent/69138922/project/adapters/n8n
+> python3 -m py_compile app/*.py
+

@@ -1,0 +1,4 @@
+
+> @ahi/sdk@0.1.0 build /tmp/cc-agent/69138922/project/packages/sdk
+> tsc -p tsconfig.json
+

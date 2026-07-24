@@ -1,0 +1,17 @@
+@import 'tailwindcss';
+@import '@ahi/ui/styles.css';
+
+:root {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+html {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: var(--color-neutral-50, #fafafa);
+  color: var(--color-neutral-900, #18181b);
+}

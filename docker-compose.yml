@@ -1,0 +1,104 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ahi-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-ahi}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ahi_password}
+      POSTGRES_DB: ${POSTGRES_DB:-ahi_organization}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ahi} -d ${POSTGRES_DB:-ahi_organization}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  organization:
+    build:
+      context: .
+      dockerfile: services/organization/Dockerfile
+    container_name: ahi-organization
+    restart: unless-stopped
+    environment:
+      ORGANIZATION_DATABASE_URL: postgresql://${POSTGRES_USER:-ahi}:${POSTGRES_PASSWORD:-ahi_password}@postgres:5432/${POSTGRES_DB:-ahi_organization}
+      ORGANIZATION_PORT: "8001"
+      ORGANIZATION_CORS_ORIGINS: '["http://localhost:3000"]'
+    ports:
+      - "8001:8001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  ai:
+    build:
+      context: .
+      dockerfile: services/ai/Dockerfile
+    container_name: ahi-ai
+    restart: unless-stopped
+    environment:
+      AI_PORT: "8002"
+      AI_OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      AI_GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      AI_OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://localhost:11434}
+      AI_CORS_ORIGINS: '["http://localhost:3000"]'
+    ports:
+      - "8002:8002"
+
+  knowledge:
+    build:
+      context: .
+      dockerfile: services/knowledge/Dockerfile
+    container_name: ahi-knowledge
+    restart: unless-stopped
+    environment:
+      KNOWLEDGE_DATABASE_URL: postgresql://${POSTGRES_USER:-ahi}:${POSTGRES_PASSWORD:-ahi_password}@postgres:5432/${POSTGRES_DB:-ahi_organization}
+      KNOWLEDGE_PORT: "8003"
+      KNOWLEDGE_AI_SERVICE_BASE_URL: http://ai:8002
+      KNOWLEDGE_CORS_ORIGINS: '["http://localhost:3000"]'
+    ports:
+      - "8003:8003"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  erp:
+    build:
+      context: .
+      dockerfile: services/erp/Dockerfile
+    container_name: ahi-erp
+    restart: unless-stopped
+    environment:
+      ERP_PORT: "8004"
+      ERP_ERPNEXT_BASE_URL: ${ERPNEXT_BASE_URL:-}
+      ERP_ERPNEXT_API_KEY: ${ERPNEXT_API_KEY:-}
+      ERP_ERPNEXT_API_SECRET: ${ERPNEXT_API_SECRET:-}
+      ERP_CORS_ORIGINS: '["http://localhost:3000"]'
+    ports:
+      - "8004:8004"
+
+  portal:
+    build:
+      context: .
+      dockerfile: apps/portal/Dockerfile
+    container_name: ahi-portal
+    restart: unless-stopped
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:8001
+      NEXT_PUBLIC_AI_SERVICE_BASE_URL: http://localhost:8002
+      NEXT_PUBLIC_KNOWLEDGE_SERVICE_BASE_URL: http://localhost:8003
+      NEXT_PUBLIC_ERP_SERVICE_BASE_URL: http://localhost:8004
+    ports:
+      - "3000:3000"
+    depends_on:
+      - organization
+      - ai
+      - knowledge
+      - erp
+
+volumes:
+  postgres_data:

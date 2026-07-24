@@ -1,0 +1,32 @@
+{
+  "name": "ahi-organization",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AHI Organization — Turborepo monorepo with Next.js 15, React, Tailwind CSS, FastAPI, Docker Compose, and PostgreSQL.",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "node scripts/build.js build",
+    "dev": "node scripts/build.js dev",
+    "lint": "node scripts/build.js lint",
+    "type-check": "node scripts/build.js type-check",
+    "test": "node scripts/build.js test",
+    "clean": "node scripts/build.js clean && rimraf node_modules",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,css,py}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,css,py}\""
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.7.2"
+  }
+}

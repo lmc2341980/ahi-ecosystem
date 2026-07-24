@@ -1,0 +1,13 @@
+{
+  "name": "@ahi/adapter-openai",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "type-check": "python3 -m py_compile app/*.py",
+    "lint": "ruff check app/",
+    "clean": "rimraf __pycache__ .turbo"
+  },
+  "devDependencies": {
+    "rimraf": "^6.0.1"
+  }
+}

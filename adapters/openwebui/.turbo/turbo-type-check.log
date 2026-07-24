@@ -1,0 +1,4 @@
+
+> @ahi/adapter-openwebui@0.1.0 type-check /tmp/cc-agent/69138922/project/adapters/openwebui
+> python3 -m py_compile app/*.py
+
