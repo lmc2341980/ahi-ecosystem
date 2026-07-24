@@ -1,0 +1,70 @@
+name: "🚀 Feature Request / Đề xuất tính năng"
+description: "Suggest a new idea or improvement for AHI Ecosystem / Đề xuất ý tưởng hoặc cải tiến cho Hệ sinh thái AHI"
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea to make the AHI Ecosystem even better? We would love to hear it!
+        *Bạn có ý tưởng để làm cho Hệ sinh thái AHI tốt hơn nữa? Hãy chia sẻ với chúng tôi!*
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: "Target Component / Thành phần áp dụng"
+      description: "Which part of the AHI Ecosystem does this feature apply to? (Tính năng này áp dụng cho phần nào?)"
+      multiple: false
+      options:
+        - "AHI Core Engine"
+        - "Cloud SaaS Platform"
+        - "Enterprise On-Premise Package"
+        - "API / Documentation"
+        - "Other / Khác"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: "Is your feature request related to a problem? / Đề xuất này có giải quyết bài toán cụ thể nào không?"
+      description: "A clear description of what the problem or limitation is. (Mô tả rõ ràng vấn đề hoặc giới hạn hiện tại của hệ thống nếu có)"
+      placeholder: "E.g., I'm frustrated when the system doesn't support model dynamic loading..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: "Describe the Solution You'd Like / Mô tả giải pháp bạn mong muốn"
+      description: "A clear description of what you want to happen. (Mô tả cụ thể tính năng mới hoạt động như thế nào)"
+      placeholder: "E.g., Add a config flag to enable dynamic hot-reloading for hybrid architectures."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: "Describe Alternatives Considered / Các giải pháp thay thế đã cân nhắc"
+      description: "Any alternative solutions or features you've considered. (Bất kỳ giải pháp thay thế nào bạn từng nghĩ tới)"
+      placeholder: "E.g., Currently, I manually restart the entire cluster container, which causes downtime..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: "Additional Context / Thông tin bổ sung"
+      description: "Add any other context, charts, screenshots, or design thoughts here. (Thêm sơ đồ, ảnh chụp hoặc ý tưởng thiết kế nếu có)"
+      placeholder: "Architectural drafts, mockups, or benchmarks..."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checkboxes
+    attributes:
+      label: "Compliance / Cam kết quy chuẩn"
+      options:
+        - label: "I have checked existing feature requests to ensure this is not a duplicate. (Tôi đã kiểm tra các đề xuất hiện tại để tránh trùng lặp)"
+          required: true
