@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AHI Ecosystem - The Evolution of Hybrid Intelligence</title>
+    <style>
+        :root {
+            --bg-private: #060913;
+            --card-bg: rgba(13, 17, 23, 0.7);
+            --border-color: rgba(56, 139, 253, 0.4);
+            --text-main: #f0f6fc;
+            --text-sub: #8b949e;
+            --neon-blue: #58a6ff;
+            --neon-purple: #bc8cff;
+            --neon-green: #39d353;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-private);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Particle Background Canvas */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        /* Header Styling */
+        header {
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            color: var(--text-sub);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Ecosystem Section */
+        .section-title {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px dashed rgba(255,255,255,0.1);
+            padding-bottom: 10px;
+        }
+
+        /* Timeline Roadmap Layout */
+        .roadmap {
+            position: relative;
+            margin-bottom: 80px;
+        }
+
+        .roadmap-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 15px rgba(88, 166, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .roadmap-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(188, 140, 255, 0.2);
+            border-color: var(--neon-purple);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .badge-blue { background: rgba(88, 166, 255, 0.2); color: var(--neon-blue); border: 1px solid var(--neon-blue); }
+        .badge-purple { background: rgba(188, 140, 255, 0.2); color: var(--neon-purple); border: 1px solid var(--neon-purple); }
+        .badge-green { background: rgba(57, 211, 83, 0.2); color: var(--neon-green); border: 1px solid var(--neon-green); }
+
+        /* Infrastructure Grid */
+        .infra-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .infra-card {
+            background: rgba(22, 27, 34, 0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 25px;
+            backdrop-filter: blur(5px);
+        }
+
+        .infra-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .highlight-text {
+            color: var(--neon-green);
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-sub);
+            font-size: 0.9rem;
+            margin-top: 80px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<div class="container">
+    <header>
+        <h1>AHI ECOSYSTEM</h1>
+        <p class="tagline">The Ultimate Evolutionary Convergence of Human Decision and Persistent Machine Intelligence.</p>
+    </header>
+
+    <!-- Section 1: The Evolutionary Journey -->
+    <h2 class="section-title">The Grand Evolutionary Roadmap</h2>
+    <div class="roadmap">
+        
+        <!-- Phase 1 -->
+        <div class="roadmap-card">
+            <span class="badge badge-blue">Phase I: The Genesis</span>
+            <h3>AHI-P (Human Primis) &rarr; Towards Digital Immortality</h3>
+            <p style="margin-top: 10px; color: var(--text-sub);">
+                The journey begins with individual human nodes. By augmenting biological limitation with continuous, spatio-temporal AI session synchronization, <strong>AHI-P</strong> protects human consciousness and decision states against downtime. It establishes the foundational bridge toward functional digital immortality.
+            </p>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="roadmap-card" style="border-style: dashed; background: rgba(13,17,23,0.4);">
+            <span class="badge badge-purple">Phase II: Hidden Convergence</span>
+            <h3>AHI-Omi (Omnipresent Collective) &middot; <span style="font-style: italic; opacity: 0.7;">[Encrypted Node]</span></h3>
+            <p style="margin-top: 10px; color: var(--text-sub);">
+                An underlying consensus layer designed to pool individual intelligence into a unified, massive intelligence cluster. <strong>AHI-Omi</strong> operates behind the scenes, processing macro-level computations while keeping strategic governance decentralised among its human originators.
+            </p>
+        </div>
+
+        <!-- Phase 3 -->
+        <div class="roadmap-card">
+            <span class="badge badge-green">Phase III: Cosmic Frontier</span>
+            <h3>AHI-Uni (Universal Expansion) &rarr; Legacy for Generations</h3>
+            <p style="margin-top: 10px; color: var(--text-sub);">
+                The final frontier. <strong>AHI-Uni</strong> projects the accumulated intelligence of humanity into deep space. Transcending physical constraints, this persistent framework guarantees that future generations inherit a borderless, timeless cognitive infrastructure across the universe.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Section 2: Engine & Economy -->
+    <h2 class="section-title">The Operational Infrastructure</h2>
+    <div class="infra-grid">
+        
+        <!-- Workforce -->
+        <div class="infra-card">
+            <h3>⚙️ AHI-Successor</h3>
+            <p style="color: var(--text-sub);">
+                The next-generation autonomous workforce. These advanced AI-driven agents handle routine computational labor, workflow maintenance, and technical execution, functioning under absolute human veto-power and leadership.
+            </p>
+        </div>
+
+        <!-- Tokenomics -->
+        <div class="infra-card" style="border-color: rgba(57, 211, 83, 0.3);">
+            <h3>🪙 AHI-Coin</h3>
+            <p style="color: var(--text-sub);">
+                The economic engine of the ecosystem. Contributions made by both human minds and automated node operators are calculated and rewarded <span class="highlight-text">publicly, transparently, and directly</span> in real-time within the AHI network.
+            </p>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>AHI Global Initiative &copy; 2026. Decentralized, Continuous, and Transcendent.</p>
+    </footer>
+</div>
+
+<script>
+    // Starfield Particle Background Animation
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let particles = [];
+    const particleCount = 100;
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    class Particle {
+        constructor() {
+            this.reset();
+        }
+        reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.radius = Math.random() * 1.5 + 0.5;
+            this.speed = Math.random() * 0.5 + 0.1;
+            this.alpha = Math.random() * 0.5 + 0.2;
+        }
+        update() {
+            this.y -= this.speed;
+            if (this.y < 0) this.reset();
+        }
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(88, 166, 255, ${this.alpha})`;
+            ctx.fill();
+        }
+    }
+
+    function init() {
+        resizeCanvas();
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+            p.update();
+            p.draw();
+        });
+        requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+    });
+
+    init();
+    animate();
+</script>
+
+</body>
+</html>
