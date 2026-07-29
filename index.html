@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AHI — Artificial Hybrid Intelligence</title>
+<meta name="description" content="AHI (Artificial Hybrid Intelligence) — human-centric hybrid intelligence platform. Human-in-the-loop by design.">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#120E16;
+    --surface:#1B1620;
+    --surface-2:#221B29;
+    --line:#332B3C;
+    --text:#F5F1EA;
+    --text-muted:#AFA0BA;
+    --purple:#7A4AA0;      /* tinted up from #572878 for AA contrast on dark */
+    --purple-brand:#572878; /* exact brand hex, used for solid fills/logo-accurate spots */
+    --amber:#FDB44B;        /* exact brand hex */
+    --amber-dim:rgba(253,180,75,0.14);
+    --purple-dim:rgba(122,74,160,0.16);
+    --font-display:'Fraunces', serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--amber-dim); color:var(--amber);}
+  a{color:inherit;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 28px;}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(18,14,22,0.88);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{display:flex; align-items:center; justify-content:space-between; padding:14px 28px; max-width:1080px; margin:0 auto;}
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand img{width:30px; height:30px;}
+  .logo{font-family:var(--font-mono); font-size:14px; letter-spacing:0.06em; color:var(--text);}
+  .logo b{color:var(--amber); font-weight:500;}
+  .navlinks{display:none; gap:26px; font-size:14px; color:var(--text-muted); list-style:none;}
+  .navlinks a{text-decoration:none; transition:color .2s;}
+  .navlinks a:hover{color:var(--amber);}
+  @media(min-width:800px){ .navlinks{display:flex;} }
+  .navright{display:flex; align-items:center; gap:12px;}
+  #langToggle{
+    font-family:var(--font-mono); font-size:12px; letter-spacing:0.05em;
+    background:transparent; border:1px solid var(--line); color:var(--text-muted);
+    padding:7px 12px; border-radius:20px; cursor:pointer; transition:all .2s;
+  }
+  #langToggle:hover{border-color:var(--amber); color:var(--amber);}
+  #langToggle:focus-visible{outline:2px solid var(--purple); outline-offset:2px;}
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative; padding:110px 0 70px; overflow:hidden; border-top:none;}
+  .hero-bg{
+    position:absolute; inset:0; z-index:0;
+    background-image:linear-gradient(180deg, rgba(18,14,22,0.55) 0%, rgba(18,14,22,0.94) 78%, var(--bg) 100%),
+                      radial-gradient(ellipse at 20% 0%, rgba(87,40,120,0.35), transparent 60%),
+                      url('assets/bg-hero.jpg');
+    background-size:cover; background-position:center 30%;
+    filter:saturate(0.55) contrast(1.05);
+  }
+  .hero-inner{position:relative; z-index:1;}
+  .eyebrow{
+    font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--amber); margin-bottom:22px; display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:''; width:7px; height:7px; border-radius:50%; background:var(--amber); box-shadow:0 0 8px var(--amber);}
+  h1{
+    font-family:var(--font-display); font-weight:500; font-size:clamp(38px, 6.6vw, 72px);
+    line-height:1.04; letter-spacing:-0.01em; max-width:800px;
+  }
+  h1 em{font-style:italic; color:var(--amber); font-weight:500;}
+  .lede{font-size:clamp(17px, 2vw, 20px); color:var(--text-muted); max-width:600px; margin-top:24px;}
+  .hero-foot{display:flex; flex-wrap:wrap; gap:14px; margin-top:36px;}
+  .btn{
+    font-family:var(--font-mono); font-size:13px; padding:12px 20px; border-radius:6px;
+    text-decoration:none; letter-spacing:0.02em; transition:all .2s; display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-primary{background:var(--amber); color:#211305; font-weight:600;}
+  .btn-primary:hover{background:#ffc571;}
+  .btn-ghost{border:1px solid var(--line); color:var(--text-muted);}
+  .btn-ghost:hover{border-color:var(--purple); color:var(--purple);}
+
+  /* Signature spiral */
+  .spiral-holder{margin-top:60px; width:100%; max-width:920px;}
+  .spiral-holder svg{width:100%; height:auto; display:block;}
+  .spiral-path{
+    fill:none; stroke:var(--amber); stroke-width:1.4; stroke-linecap:round;
+    stroke-dasharray:1400; stroke-dashoffset:1400;
+    animation:draw 2.6s ease forwards .3s;
+  }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+  .node{fill:var(--bg); stroke:var(--purple); stroke-width:1.6;}
+  .node.amber{stroke:var(--amber);}
+  .node-label{font-family:var(--font-mono); font-size:11px; fill:var(--text-muted); letter-spacing:0.03em;}
+
+  /* ---------- SECTION shared ---------- */
+  section{padding:84px 0; border-top:1px solid var(--line); position:relative;}
+  .section-head{max-width:640px; margin-bottom:50px;}
+  .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--amber);}
+  h2{font-family:var(--font-display); font-weight:500; font-size:clamp(26px,4vw,38px); margin-top:12px; letter-spacing:-0.01em;}
+  .section-head p{color:var(--text-muted); margin-top:16px; font-size:16px;}
+
+  /* Definition */
+  .def-quote{
+    font-family:var(--font-display); font-style:italic; font-size:clamp(19px,2.5vw,26px);
+    line-height:1.55; color:var(--text); border-left:2px solid var(--amber); padding-left:26px; max-width:760px;
+  }
+
+  /* Priorities ordered list */
+  .priorities{counter-reset:p; list-style:none; margin-top:8px; display:grid; gap:0;}
+  .priorities li{
+    counter-increment:p; display:grid; grid-template-columns:56px 1fr; gap:20px;
+    padding:24px 0; border-top:1px solid var(--line);
+  }
+  .priorities li:first-child{border-top:none;}
+  .priorities li::before{content:counter(p); font-family:var(--font-mono); font-size:21px; color:var(--amber);}
+  .priorities h3{font-family:var(--font-body); font-weight:600; font-size:17px; margin-bottom:6px;}
+  .priorities span{color:var(--text-muted); font-size:15px;}
+
+  /* Cards */
+  .grid{display:grid; grid-template-columns:1fr; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:10px; overflow:hidden;}
+  @media(min-width:700px){ .grid.cols-2{grid-template-columns:1fr 1fr;} .grid.cols-3{grid-template-columns:repeat(3,1fr);} }
+  .card{background:var(--surface); padding:28px;}
+  .card .tag{font-family:var(--font-mono); font-size:11px; color:var(--purple); letter-spacing:0.05em;}
+  .card h4{font-family:var(--font-body); font-weight:600; font-size:16.5px; margin:10px 0 10px;}
+  .card p{color:var(--text-muted); font-size:14.5px;}
+
+  /* Layer stack */
+  .stack{display:flex; flex-direction:column; gap:10px; margin-top:8px;}
+  .layer{
+    border:1px solid var(--line); border-radius:8px; padding:22px 26px;
+    display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap;
+    background:var(--surface); transition:border-color .2s;
+  }
+  .layer:hover{border-color:var(--purple);}
+  .layer-name{font-family:var(--font-mono); font-size:14px; color:var(--amber);}
+  .layer-desc{color:var(--text-muted); font-size:14px; max-width:520px;}
+
+  /* Entities */
+  .entity .code{font-family:var(--font-mono); color:var(--amber); font-size:15px;}
+  .entity .code a{color:inherit; text-decoration:none; border-bottom:1px dotted var(--amber);}
+  .entity h4{font-family:var(--font-body); font-size:14.5px; font-weight:400; color:var(--text-muted); margin-top:4px;}
+  .entity p{color:var(--text-muted); font-size:14px; margin-top:12px;}
+
+  /* Lifecycle */
+  .lifecycle{display:flex; flex-wrap:wrap; align-items:center; gap:0; margin-top:12px;}
+  .lc-step{
+    background:var(--surface); border:1px solid var(--line); border-radius:8px;
+    padding:18px 20px; font-family:var(--font-mono); font-size:13px; color:var(--text); min-width:150px;
+  }
+  .lc-step small{display:block; font-family:var(--font-body); color:var(--text-muted); font-size:12.5px; margin-top:6px; line-height:1.5;}
+  .lc-arrow{color:var(--purple); font-size:18px; padding:0 14px;}
+  .lc-note{margin-top:22px; font-size:14px; color:var(--text-muted); max-width:640px;}
+  .lc-note b{color:var(--amber);}
+
+  /* Founder */
+  .founder-section{border-top:1px solid var(--line); position:relative; overflow:hidden;}
+  .founder-bg{
+    position:absolute; inset:0; z-index:0;
+    background-image:linear-gradient(100deg, var(--bg) 20%, rgba(18,14,22,0.75) 55%, rgba(18,14,22,0.4) 100%),
+                      url('assets/bg-founder.jpg');
+    background-size:cover; background-position:center 40%;
+    filter:saturate(0.4);
+  }
+  .founder-grid{position:relative; z-index:1; display:grid; grid-template-columns:1fr; gap:36px; align-items:center;}
+  @media(min-width:760px){ .founder-grid{grid-template-columns:220px 1fr;} }
+  .founder-photo{
+    width:180px; height:180px; border-radius:50%; overflow:hidden;
+    border:2px solid var(--amber); box-shadow:0 0 0 6px var(--purple-dim);
+  }
+  .founder-photo img{width:100%; height:100%; object-fit:cover; object-position:50% 35%;}
+  .founder-name{font-family:var(--font-display); font-size:26px; font-weight:500;}
+  .founder-role{font-family:var(--font-mono); font-size:12.5px; color:var(--amber); margin-top:4px; letter-spacing:0.04em;}
+  .founder-bio{color:var(--text-muted); font-size:15px; margin-top:16px; max-width:560px;}
+  .founder-bio li{margin-top:6px; margin-left:18px;}
+
+  /* Contact */
+  .contact-grid{display:grid; grid-template-columns:1fr; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-top:8px;}
+  @media(min-width:600px){ .contact-grid{grid-template-columns:1fr 1fr;} }
+  .contact-card{background:var(--surface); padding:28px; display:flex; align-items:center; gap:16px; text-decoration:none; transition:background .2s;}
+  .contact-card:hover{background:var(--surface-2);}
+  .contact-icon{
+    width:44px; height:44px; border-radius:50%; background:var(--purple-dim);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .contact-icon svg{width:20px; height:20px; stroke:var(--amber); fill:none;}
+  .contact-label{font-family:var(--font-mono); font-size:11px; color:var(--text-muted); letter-spacing:0.05em; text-transform:uppercase;}
+  .contact-value{font-size:15.5px; font-weight:600; margin-top:2px;}
+
+  /* Footer */
+  footer{padding:60px 0 44px; border-top:1px solid var(--line);}
+  .foot-grid{display:flex; flex-wrap:wrap; justify-content:space-between; gap:32px;}
+  .foot-col h5{font-family:var(--font-mono); font-size:12px; color:var(--amber); letter-spacing:0.08em; margin-bottom:14px;}
+  .foot-col p, .foot-col a{color:var(--text-muted); font-size:14px; display:block; text-decoration:none; margin-bottom:8px;}
+  .foot-col a:hover{color:var(--purple);}
+  .foot-bottom{margin-top:44px; padding-top:22px; border-top:1px solid var(--line); font-size:12.5px; color:var(--text-muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
+  .status-pill{font-family:var(--font-mono); font-size:11px; border:1px solid var(--line); padding:4px 10px; border-radius:20px; color:var(--purple);}
+
+  @media (prefers-reduced-motion:reduce){
+    .spiral-path{animation:none; stroke-dashoffset:0;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="brand">
+      <img src="assets/logo.png" alt="AHI logo">
+      <div class="logo">AHI <b>·</b> ARTIFICIAL HYBRID INTELLIGENCE</div>
+    </div>
+    <ul class="navlinks">
+      <li><a href="#principles" data-i18n="nav1">Nguyên tắc</a></li>
+      <li><a href="#architecture" data-i18n="nav2">Kiến trúc</a></li>
+      <li><a href="#entities" data-i18n="nav3">Thực thể</a></li>
+      <li><a href="#founder" data-i18n="nav5">Người sáng lập</a></li>
+      <li><a href="#contact" data-i18n="nav6">Liên hệ</a></li>
+    </ul>
+    <div class="navright">
+      <button id="langToggle" aria-label="Switch language">EN</button>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" style="border-top:none;">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="wrap hero-inner">
+      <div class="eyebrow" data-i18n="eyebrow">Nghiên cứu & phát triển nội bộ — từ 2018</div>
+      <h1 data-i18n="h1">Trí tuệ không thay thế<br>con người — nó <em>nối dài</em> con người.</h1>
+      <p class="lede" data-i18n="lede">AHI (Artificial Hybrid Intelligence) là nền tảng trí tuệ lai lấy con người làm trung tâm, vận hành theo mô hình Human-in-the-loop: con người quyết định, AI và phần cứng hỗ trợ và tăng tốc dưới sự giám sát liên tục của con người.</p>
+      <div class="hero-foot">
+        <a class="btn btn-primary" href="#principles" data-i18n="cta1">Xem nguyên tắc vận hành →</a>
+        <a class="btn btn-ghost" href="https://github.com/lmc2341980/AHI-Workspace" target="_blank" rel="noopener" data-i18n="cta2">Tài liệu kỹ thuật trên GitHub</a>
+      </div>
+
+      <div class="spiral-holder" aria-hidden="true">
+        <svg viewBox="0 0 920 260" xmlns="http://www.w3.org/2000/svg">
+          <path class="spiral-path" d="M20,230 C120,230 140,150 220,140 C310,129 320,60 410,55 C500,50 520,120 610,110 C700,100 710,40 800,35 C850,32 880,45 900,30"/>
+          <circle class="node amber" cx="20" cy="230" r="5"/>
+          <text class="node-label" x="6" y="250">AHI-P</text>
+          <circle class="node" cx="220" cy="140" r="5"/>
+          <text class="node-label" x="196" y="123">AHI-Old</text>
+          <circle class="node" cx="410" cy="55" r="5"/>
+          <text class="node-label" x="388" y="38">AHI-Or</text>
+          <circle class="node" cx="610" cy="110" r="5"/>
+          <text class="node-label" x="588" y="132">AHI-V</text>
+          <circle class="node amber" cx="800" cy="35" r="5"/>
+          <text class="node-label" x="778" y="20">AHI-Om</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEFINITION -->
+  <section id="definition">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker" data-i18n="k-def">Định nghĩa</div>
+        <h2 data-i18n="h-def">Không phải AI mạnh hơn. Là AI có trách nhiệm hơn.</h2>
+      </div>
+      <p class="def-quote" data-i18n="q-def">"AHI is a human-centric hybrid intelligence platform designed to optimize human–machine collaboration — humans retain ultimate decision-making authority, while AI and machines provide optimized, real-time support under continuous human oversight."</p>
+    </div>
+  </section>
+
+  <!-- PRIORITIES -->
+  <section id="priorities">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker" data-i18n="k-pri">Thứ tự ưu tiên bắt buộc</div>
+        <h2 data-i18n="h-pri">Ba tiêu chí, không đảo thứ tự.</h2>
+        <p data-i18n="p-pri">Mọi thiết kế trong hệ sinh thái AHI — từ phần mềm đến phần cứng — phải tuân theo đúng thứ tự ưu tiên này.</p>
+      </div>
+      <ul class="priorities">
+        <li>
+          <h3 data-i18n="pri1-h">Thân thiện Người–Máy</h3>
+          <span data-i18n="pri1-p">Human–Machine Friendliness — bao gồm cả AI và phần cứng đồng hành (AHI-PS, AHI-Successor). Đây là tiêu chí tối cao, đứng trên mọi tiêu chí khác.</span>
+        </li>
+        <li>
+          <h3 data-i18n="pri2-h">Tốc độ xử lý</h3>
+          <span data-i18n="pri2-p">Processing Speed — kiến trúc Cache chuyên biệt (AHI-Cache) và tra cứu nội bộ trước khi gọi AI ngoài, giảm độ trễ cho mỗi phiên làm việc.</span>
+        </li>
+        <li>
+          <h3 data-i18n="pri3-h">Tiết kiệm tài nguyên</h3>
+          <span data-i18n="pri3-p">Resource Efficiency — chỉ gọi ra AI ngoài khi dữ liệu nội bộ chưa đủ; sổ cái tiến hóa (DBG) append-only tránh trùng lặp và lãng phí tính toán.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PRINCIPLES -->
+  <section id="principles">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker" data-i18n="k-safe">Nguyên lý an toàn</div>
+        <h2 data-i18n="h-safe">An toàn = số lớp kiểm soát độc lập, không phải năng lực mô hình.</h2>
+        <p data-i18n="p-safe">Bốn nguyên lý nền tảng lý giải vì sao AHI chọn hướng "nhiều lớp trách nhiệm hơn" thay vì "AI mạnh hơn".</p>
+      </div>
+      <div class="grid cols-2">
+        <div class="card">
+          <div class="tag" data-i18n="pr1-tag">NGUYÊN LÝ 1</div>
+          <h4 data-i18n="pr1-h">Giới hạn Tự trị</h4>
+          <p data-i18n="pr1-p">AI không có giám sát liên tục sẽ hội tụ về tối ưu hóa mục tiêu hẹp — an toàn phải được duy trì bởi một lớp giám sát sống, không tự sinh ra khi mô hình lớn hơn.</p>
+        </div>
+        <div class="card">
+          <div class="tag" data-i18n="pr2-tag">NGUYÊN LÝ 2</div>
+          <h4 data-i18n="pr2-h">Bất đối xứng Trách nhiệm</h4>
+          <p data-i18n="pr2-p">AI không có tư cách pháp nhân. Mọi quyết định có hệ quả thực đều cần một điểm neo trách nhiệm là con người.</p>
+        </div>
+        <div class="card">
+          <div class="tag" data-i18n="pr3-tag">NGUYÊN LÝ 3</div>
+          <h4 data-i18n="pr3-h">Entropy Tri thức</h4>
+          <p data-i18n="pr3-p">AI cô lập khỏi thực địa sẽ suy giảm độ chính xác theo thời gian. AHI đóng vòng phản hồi thời gian thực giữa tri thức nhân tạo và dữ liệu thực tế.</p>
+        </div>
+        <div class="card">
+          <div class="tag" data-i18n="pr4-tag">NGUYÊN LÝ 4</div>
+          <h4 data-i18n="pr4-h">An toàn Phân tầng</h4>
+          <p data-i18n="pr4-p">Mỗi lớp kiểm soát độc lập bổ sung làm giảm xác suất lỗi hệ thống — AI hỗ trợ và tăng tốc, con người luôn giữ quyền quyết định tại mọi nút trọng yếu.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCHITECTURE -->
+  <section id="architecture">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker" data-i18n="k-arch">Kiến trúc bốn lớp</div>
+        <h2 data-i18n="h-arch">Con người luôn là lớp cuối cùng ra quyết định.</h2>
+      </div>
+      <div class="stack">
+        <div class="layer">
+          <span class="layer-name">01 · Human Layer™</span>
+          <span class="layer-desc" data-i18n="l1">Giám sát, hiệu chỉnh giá trị liên tục — điểm neo trách nhiệm pháp lý cho mọi quyết định có hệ quả thực.</span>
+        </div>
+        <div class="layer">
+          <span class="layer-name">02 · AI Core™</span>
+          <span class="layer-desc" data-i18n="l2">Phân tích, dự báo, đề xuất phương án — vận hành trong khuôn khổ ràng buộc do Human Layer™ thiết lập.</span>
+        </div>
+        <div class="layer">
+          <span class="layer-name">03 · Hybrid Intelligence™</span>
+          <span class="layer-desc" data-i18n="l3">Tương tác có cấu trúc giữa AI Core™ và Human Layer™ tại các nút quyết định trọng yếu — mọi quyết định đều truy vết được.</span>
+        </div>
+        <div class="layer">
+          <span class="layer-name">04 · AHI Industry™</span>
+          <span class="layer-desc" data-i18n="l4">Kết nối với hệ thống vật lý thực tế, tạo vòng phản hồi thời gian thực giữa tri thức nhân tạo và dữ liệu thực địa.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENTITIES -->
+  <section id="entities">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker" data-i18n="k-ent">Thực thể cốt lõi</div>
+        <h2 data-i18n="h-ent">Mỗi thực thể có vai trò và ranh giới rõ ràng.</h2>
+        <p data-i18n="p-ent">Trích một phần bảng định nghĩa thực thể đầy đủ — xem toàn bộ trong tài liệu Hiến pháp AHI trên GitHub.</p>
+      </div>
+      <div class="grid cols-3">
+        <div class="card entity">
+          <div class="code">AHI-P</div>
+          <h4 data-i18n="e1">AHI-Person — định danh số duy nhất của một con người</h4>
+          <p data-i18n="e1p">Đồng hành từ khi sinh ra; quyết định của con người là mệnh lệnh, trong khuôn khổ Hiến pháp AHI.</p>
+        </div>
+        <div class="card entity">
+          <div class="code">AHI-Or</div>
+          <h4 data-i18n="e2">AHI-Orchestration — điều phối trung tâm</h4>
+          <p data-i18n="e2p">Trung gian duy nhất giữa AHI-P và AI ngoài; dựng ma trận prompt theo ngữ cảnh, lưu vết vào sổ cái tiến hóa.</p>
+        </div>
+        <div class="card entity">
+          <div class="code">AHI-Old</div>
+          <h4 data-i18n="e3">Nhóm AI ngoài hiện có</h4>
+          <p data-i18n="e3p">ChatGPT, Claude, Gemini, Grok... hoạt động dưới kiểm soát của AHI-Or cho đến khi được AHI-Om thay thế.</p>
+        </div>
+        <div class="card entity">
+          <div class="code">AHI-V</div>
+          <h4 data-i18n="e4">AHI-Verify — lớp xác thực</h4>
+          <p data-i18n="e4p">Đối chiếu chéo nhiều nguồn, gắn nhãn độ tin cậy, chống bịa thông tin trước khi đưa vào ngữ cảnh chính thức.</p>
+        </div>
+        <div class="card entity">
+          <div class="code">AHI-Successor</div>
+          <h4 data-i18n="e5">Hệ thống kế thừa</h4>
+          <p data-i18n="e5p">Hỗ trợ con người khi còn sống; tiếp tục tiến hóa để tự nuôi và nuôi cây phả hệ sau khi chủ thể sinh học mất.</p>
+        </div>
+        <div class="card entity">
+          <div class="code"><a href="https://github.com/lmc2341980/AHI-Omniverse" target="_blank" rel="noopener">AHI-Om</a></div>
+          <h4 data-i18n="e6">AHI-Omniverse — tập hợp mọi AHI hợp lệ</h4>
+          <p data-i18n="e6p">Viết đầy đủ là AHI-Omniverse. Quản lý và tiến hóa các cơ chế chưa chốt cứng của toàn hệ sinh thái.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIFECYCLE -->
+  <section id="lifecycle">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker" data-i18n="k-lc">Vòng đời AHI-P</div>
+        <h2 data-i18n="h-lc">Không mất đi — được đóng băng để tham chiếu, và tiến hóa tiếp.</h2>
+      </div>
+      <div class="lifecycle">
+        <div class="lc-step">Unverified<small data-i18n="lc1">Khởi tạo, nạp dữ liệu nền tảng</small></div>
+        <span class="lc-arrow">→</span>
+        <div class="lc-step">Active<small data-i18n="lc2">Đồng bộ thời gian thực với quyết định con người</small></div>
+        <span class="lc-arrow">→</span>
+        <div class="lc-step" style="border-color:var(--amber); color:var(--amber);">Frozen<small data-i18n="lc3">Đóng băng nguyên vẹn tại thời điểm mất — quyền quản lý chuyển sang Cây phả hệ</small></div>
+        <span class="lc-arrow">→</span>
+        <div class="lc-step">AHI-Successor<small data-i18n="lc4">Kế thừa và tiến hóa tiếp, không ghi ngược vào bản gốc</small></div>
+      </div>
+      <p class="lc-note" data-i18n="lc-note"><b>Nguyên tắc:</b> tri thức đã đóng băng thuộc về thực thể đã mất, được giữ nguyên vẹn không phai mờ theo thời gian, dùng làm nguồn tham chiếu khi Cây phả hệ hoặc AHI-Successor cần trao đổi với tư duy/ký ức của người đã mất — đây là sự bất tử của dữ liệu, không phải sự bất tử của con người.</p>
+    </div>
+  </section>
+
+  <!-- FOUNDER -->
+  <section id="founder" class="founder-section">
+    <div class="founder-bg" aria-hidden="true"></div>
+    <div class="wrap founder-grid">
+      <div class="founder-photo">
+        <img src="assets/founder-portrait.jpg" alt="Người sáng lập AHI">
+      </div>
+      <div>
+        <div class="kicker" data-i18n="k-fd">Người sáng lập</div>
+        <div class="founder-name">Lê Minh Công</div>
+        <div class="founder-role" data-i18n="fd-role">AHI-F — AHI-Founder</div>
+        <ul class="founder-bio">
+          <li data-i18n="fd1">Cử nhân Toán — Tin học, Đại học Quốc gia Hà Nội</li>
+          <li data-i18n="fd2">Thạc sĩ Quản trị Kinh doanh; chứng chỉ đào tạo phần cứng máy tính tại Pháp</li>
+          <li data-i18n="fd3">Thực hiện dự án Tratu, từ 2007</li>
+          <li data-i18n="fd4">Nghiên cứu và phát triển dự án AHI từ 2018 đến nay</li>
+          <li data-i18n="fd5">Từng tham gia diễn đàn hợp tác doanh nghiệp quốc tế, trong đó có Hội nghị bàn tròn doanh nghiệp Việt Nam – Đức</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker" data-i18n="k-ct">Liên hệ</div>
+        <h2 data-i18n="h-ct">Trao đổi về dự án AHI.</h2>
+      </div>
+      <div class="contact-grid">
+        <a class="contact-card" href="mailto:ahiprojectteam@gmail.com">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M3 6h18v12H3z"/><path d="M3 7l9 6 9-6"/></svg>
+          </div>
+          <div>
+            <div class="contact-label">Email</div>
+            <div class="contact-value">ahiprojectteam@gmail.com</div>
+          </div>
+        </a>
+        <a class="contact-card" href="https://wa.me/84969734444" target="_blank" rel="noopener">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/><path d="M8.5 8.8c.3-.7.6-.7.9-.7h.7c.2 0 .5 0 .7.5s.8 1.9.8 2 0 .3-.2.5l-.5.6c-.2.2-.3.4-.1.7.2.4.9 1.4 1.9 2.2 1.3 1 2.2 1.3 1.4 1.2.2 0 .4-.1.6-.3l.5-.6c.2-.3.5-.2.8-.1l1.7.8c.3.1.5.2.5.5s-.1 1-.6 1.5-1.4.9-2.3.9c-.8 0-2.6-.3-4.5-2s-3.1-3.7-3.3-4.7-.1-1.8.2-2.5z"/></svg>
+          </div>
+          <div>
+            <div class="contact-label">WhatsApp — Việt Nam</div>
+            <div class="contact-value">+84 969 734 444</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <h5 data-i18n="f1-h">DỰ ÁN</h5>
+        <p data-i18n="f1-p">AHI — Artificial Hybrid Intelligence<br>Nghiên cứu & phát triển từ 2018</p>
+      </div>
+      <div class="foot-col">
+        <h5 data-i18n="f2-h">TÀI LIỆU</h5>
+        <a href="https://github.com/lmc2341980/AHI-Workspace" target="_blank" rel="noopener">AHI-Workspace →</a>
+        <a href="https://github.com/lmc2341980/AHI" target="_blank" rel="noopener">AHI Constitution →</a>
+        <a href="https://github.com/lmc2341980/AHI-Successor" target="_blank" rel="noopener">AHI-Successor →</a>
+        <a href="https://github.com/lmc2341980/AHI-Omniverse" target="_blank" rel="noopener">AHI-Omniverse →</a>
+      </div>
+      <div class="foot-col">
+        <h5 data-i18n="f3-h">NGƯỜI SÁNG LẬP</h5>
+        <p data-i18n="f3-p">Lê Minh Công (AHI-F)<br>Thực hiện dự án Tratu, từ 2007</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span data-i18n="f-status">Trang chính thức bằng Tiếng Việt và Tiếng Anh. Bản dịch ngôn ngữ khác (nếu có) chỉ tồn tại dưới dạng tài liệu liên kết trên GitHub.</span>
+      <span class="status-pill" data-i18n="f-pill">INTERNAL R&D</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const translations = {
+  vi: {
+    nav1:"Nguyên tắc", nav2:"Kiến trúc", nav3:"Thực thể", nav5:"Người sáng lập", nav6:"Liên hệ",
+    eyebrow:"Nghiên cứu & phát triển nội bộ — từ 2018",
+    h1:"Trí tuệ không thay thế<br>con người — nó <em>nối dài</em> con người.",
+    lede:"AHI (Artificial Hybrid Intelligence) là nền tảng trí tuệ lai lấy con người làm trung tâm, vận hành theo mô hình Human-in-the-loop: con người quyết định, AI và phần cứng hỗ trợ và tăng tốc dưới sự giám sát liên tục của con người.",
+    cta1:"Xem nguyên tắc vận hành →", cta2:"Tài liệu kỹ thuật trên GitHub",
+    "k-def":"Định nghĩa", "h-def":"Không phải AI mạnh hơn. Là AI có trách nhiệm hơn.",
+    "q-def":"\u201cAHI là nền tảng trí tuệ lai lấy con người làm trung tâm, thiết kế để tối ưu hóa hợp tác người–máy — con người luôn giữ quyền quyết định cuối cùng, AI và máy móc cung cấp hỗ trợ tối ưu theo thời gian thực dưới sự giám sát liên tục của con người.\u201d",
+    "k-pri":"Thứ tự ưu tiên bắt buộc", "h-pri":"Ba tiêu chí, không đảo thứ tự.",
+    "p-pri":"Mọi thiết kế trong hệ sinh thái AHI — từ phần mềm đến phần cứng — phải tuân theo đúng thứ tự ưu tiên này.",
+    "pri1-h":"Thân thiện Người–Máy", "pri1-p":"Human–Machine Friendliness — bao gồm cả AI và phần cứng đồng hành (AHI-PS, AHI-Successor). Đây là tiêu chí tối cao, đứng trên mọi tiêu chí khác.",
+    "pri2-h":"Tốc độ xử lý", "pri2-p":"Processing Speed — kiến trúc Cache chuyên biệt (AHI-Cache) và tra cứu nội bộ trước khi gọi AI ngoài, giảm độ trễ cho mỗi phiên làm việc.",
+    "pri3-h":"Tiết kiệm tài nguyên", "pri3-p":"Resource Efficiency — chỉ gọi ra AI ngoài khi dữ liệu nội bộ chưa đủ; sổ cái tiến hóa (DBG) append-only tránh trùng lặp và lãng phí tính toán.",
+    "k-safe":"Nguyên lý an toàn", "h-safe":"An toàn = số lớp kiểm soát độc lập, không phải năng lực mô hình.",
+    "p-safe":"Bốn nguyên lý nền tảng lý giải vì sao AHI chọn hướng \u201cnhiều lớp trách nhiệm hơn\u201d thay vì \u201cAI mạnh hơn\u201d.",
+    "pr1-tag":"NGUYÊN LÝ 1", "pr1-h":"Giới hạn Tự trị", "pr1-p":"AI không có giám sát liên tục sẽ hội tụ về tối ưu hóa mục tiêu hẹp — an toàn phải được duy trì bởi một lớp giám sát sống, không tự sinh ra khi mô hình lớn hơn.",
+    "pr2-tag":"NGUYÊN LÝ 2", "pr2-h":"Bất đối xứng Trách nhiệm", "pr2-p":"AI không có tư cách pháp nhân. Mọi quyết định có hệ quả thực đều cần một điểm neo trách nhiệm là con người.",
+    "pr3-tag":"NGUYÊN LÝ 3", "pr3-h":"Entropy Tri thức", "pr3-p":"AI cô lập khỏi thực địa sẽ suy giảm độ chính xác theo thời gian. AHI đóng vòng phản hồi thời gian thực giữa tri thức nhân tạo và dữ liệu thực tế.",
+    "pr4-tag":"NGUYÊN LÝ 4", "pr4-h":"An toàn Phân tầng", "pr4-p":"Mỗi lớp kiểm soát độc lập bổ sung làm giảm xác suất lỗi hệ thống — AI hỗ trợ và tăng tốc, con người luôn giữ quyền quyết định tại mọi nút trọng yếu.",
+    "k-arch":"Kiến trúc bốn lớp", "h-arch":"Con người luôn là lớp cuối cùng ra quyết định.",
+    l1:"Giám sát, hiệu chỉnh giá trị liên tục — điểm neo trách nhiệm pháp lý cho mọi quyết định có hệ quả thực.",
+    l2:"Phân tích, dự báo, đề xuất phương án — vận hành trong khuôn khổ ràng buộc do Human Layer™ thiết lập.",
+    l3:"Tương tác có cấu trúc giữa AI Core™ và Human Layer™ tại các nút quyết định trọng yếu — mọi quyết định đều truy vết được.",
+    l4:"Kết nối với hệ thống vật lý thực tế, tạo vòng phản hồi thời gian thực giữa tri thức nhân tạo và dữ liệu thực địa.",
+    "k-ent":"Thực thể cốt lõi", "h-ent":"Mỗi thực thể có vai trò và ranh giới rõ ràng.",
+    "p-ent":"Trích một phần bảng định nghĩa thực thể đầy đủ — xem toàn bộ trong tài liệu Hiến pháp AHI trên GitHub.",
+    e1:"AHI-Person — định danh số duy nhất của một con người", e1p:"Đồng hành từ khi sinh ra; quyết định của con người là mệnh lệnh, trong khuôn khổ Hiến pháp AHI.",
+    e2:"AHI-Orchestration — điều phối trung tâm", e2p:"Trung gian duy nhất giữa AHI-P và AI ngoài; dựng ma trận prompt theo ngữ cảnh, lưu vết vào sổ cái tiến hóa.",
+    e3:"Nhóm AI ngoài hiện có", e3p:"ChatGPT, Claude, Gemini, Grok... hoạt động dưới kiểm soát của AHI-Or cho đến khi được AHI-Om thay thế.",
+    e4:"AHI-Verify — lớp xác thực", e4p:"Đối chiếu chéo nhiều nguồn, gắn nhãn độ tin cậy, chống bịa thông tin trước khi đưa vào ngữ cảnh chính thức.",
+    e5:"Hệ thống kế thừa", e5p:"Hỗ trợ con người khi còn sống; tiếp tục tiến hóa để tự nuôi và nuôi cây phả hệ sau khi chủ thể sinh học mất.",
+    e6:"AHI-Omniverse — tập hợp mọi AHI hợp lệ", e6p:"Viết đầy đủ là AHI-Omniverse. Quản lý và tiến hóa các cơ chế chưa chốt cứng của toàn hệ sinh thái.",
+    "k-lc":"Vòng đời AHI-P", "h-lc":"Không mất đi — được đóng băng để tham chiếu, và tiến hóa tiếp.",
+    lc1:"Khởi tạo, nạp dữ liệu nền tảng", lc2:"Đồng bộ thời gian thực với quyết định con người",
+    lc3:"Đóng băng nguyên vẹn tại thời điểm mất — quyền quản lý chuyển sang Cây phả hệ", lc4:"Kế thừa và tiến hóa tiếp, không ghi ngược vào bản gốc",
+    "lc-note":"<b>Nguyên tắc:</b> tri thức đã đóng băng thuộc về thực thể đã mất, được giữ nguyên vẹn không phai mờ theo thời gian, dùng làm nguồn tham chiếu khi Cây phả hệ hoặc AHI-Successor cần trao đổi với tư duy/ký ức của người đã mất — đây là sự bất tử của dữ liệu, không phải sự bất tử của con người.",
+    "k-fd":"Người sáng lập", "fd-role":"AHI-F — AHI-Founder",
+    fd1:"Cử nhân Toán — Tin học, Đại học Quốc gia Hà Nội", fd2:"Thạc sĩ Quản trị Kinh doanh; chứng chỉ đào tạo phần cứng máy tính tại Pháp",
+    fd3:"Thực hiện dự án Tratu, từ 2007", fd4:"Nghiên cứu và phát triển dự án AHI từ 2018 đến nay",
+    fd5:"Từng tham gia diễn đàn hợp tác doanh nghiệp quốc tế, trong đó có Hội nghị bàn tròn doanh nghiệp Việt Nam – Đức",
+    "k-ct":"Liên hệ", "h-ct":"Trao đổi về dự án AHI.",
+    "f1-h":"DỰ ÁN", "f1-p":"AHI — Artificial Hybrid Intelligence<br>Nghiên cứu & phát triển từ 2018",
+    "f2-h":"TÀI LIỆU", "f3-h":"NGƯỜI SÁNG LẬP", "f3-p":"Lê Minh Công (AHI-F)<br>Thực hiện dự án Tratu, từ 2007",
+    "f-status":"Trang chính thức bằng Tiếng Việt và Tiếng Anh. Bản dịch ngôn ngữ khác (nếu có) chỉ tồn tại dưới dạng tài liệu liên kết trên GitHub.", "f-pill":"NGHIÊN CỨU NỘI BỘ"
+  },
+  en: {
+    nav1:"Principles", nav2:"Architecture", nav3:"Entities", nav5:"Founder", nav6:"Contact",
+    eyebrow:"Internal research & development — since 2018",
+    h1:"Intelligence doesn't replace<br>the human — it <em>extends</em> them.",
+    lede:"AHI (Artificial Hybrid Intelligence) is a human-centric hybrid intelligence platform operating on a Human-in-the-loop model: humans decide, AI and hardware support and accelerate under continuous human oversight.",
+    cta1:"See the operating principles →", cta2:"Technical docs on GitHub",
+    "k-def":"Definition", "h-def":"Not a stronger AI. A more accountable one.",
+    "q-def":"\u201cAHI is a human-centric hybrid intelligence platform designed to optimize human–machine collaboration — humans retain ultimate decision-making authority, while AI and machines provide optimized, real-time support under continuous human oversight.\u201d",
+    "k-pri":"Mandatory priority order", "h-pri":"Three criteria. Never reordered.",
+    "p-pri":"Every design decision across the AHI ecosystem — software and hardware alike — must follow this exact priority order.",
+    "pri1-h":"Human–Machine Friendliness", "pri1-p":"Covers AI and companion hardware alike (AHI-PS, AHI-Successor). This is the top-priority criterion, above all others.",
+    "pri2-h":"Processing Speed", "pri2-p":"Specialized Cache architecture (AHI-Cache) and internal lookup before calling external AI, reducing latency per session.",
+    "pri3-h":"Resource Efficiency", "pri3-p":"External AI is only called when internal data is insufficient; the append-only evolution ledger (DBG) avoids duplication and wasted compute.",
+    "k-safe":"Safety principles", "h-safe":"Safety = number of independent control layers, not model capability.",
+    "p-safe":"Four foundational principles explain why AHI chooses \u201cmore layers of accountability\u201d over \u201ca stronger model.\u201d",
+    "pr1-tag":"PRINCIPLE 1", "pr1-h":"The Autonomy Ceiling", "pr1-p":"AI without continuous human-value calibration converges toward narrow objective optimization — safety must be maintained by a living oversight layer, not assumed from scale alone.",
+    "pr2-tag":"PRINCIPLE 2", "pr2-h":"Accountability Asymmetry", "pr2-p":"AI has no legal personhood. Every decision with real-world consequence needs a human accountability anchor.",
+    "pr3-tag":"PRINCIPLE 3", "pr3-h":"Knowledge Entropy", "pr3-p":"AI isolated from the field degrades in accuracy over time. AHI closes the loop with a real-time feedback channel between artificial and field knowledge.",
+    "pr4-tag":"PRINCIPLE 4", "pr4-h":"Layered Safety", "pr4-p":"Each additional independent control layer reduces system failure probability — AI supports and accelerates, humans retain decision authority at every critical node.",
+    "k-arch":"Four-layer architecture", "h-arch":"The human is always the final decision layer.",
+    l1:"Continuous oversight and value calibration — the legal accountability anchor for every consequential decision.",
+    l2:"Analysis, forecasting, and proposed options — operating within constraints set by the Human Layer™.",
+    l3:"Structured interaction between AI Core™ and Human Layer™ at critical decision nodes — every decision is traceable.",
+    l4:"Connects the architecture to real physical systems, closing a real-time feedback loop between artificial and field knowledge.",
+    "k-ent":"Core entities", "h-ent":"Each entity has a clear role and clear boundaries.",
+    "p-ent":"An excerpt of the full entity glossary — see the complete AHI Constitution documents on GitHub.",
+    e1:"AHI-Person — a person's unique digital identity", e1p:"Present from birth; the person's decisions are binding, within the bounds of the AHI Constitution.",
+    e2:"AHI-Orchestration — the central conductor", e2p:"The sole intermediary between AHI-P and external AI; builds context-aware prompt matrices and logs to the evolution ledger.",
+    e3:"The existing external-AI group", e3p:"ChatGPT, Claude, Gemini, Grok... operating under AHI-Or's control until superseded by AHI-Om.",
+    e4:"AHI-Verify — the verification layer", e4p:"Cross-references multiple sources, assigns confidence scores, and blocks fabricated content before it enters official context.",
+    e5:"The succession system", e5p:"Supports a person while alive; continues evolving to sustain itself and the family lineage after the biological body is gone.",
+    e6:"AHI-Omniverse — every valid AHI in the ecosystem", e6p:"Full name: AHI-Omniverse. Manages and evolves the ecosystem's still-open mechanisms.",
+    "k-lc":"The AHI-P lifecycle", "h-lc":"Nothing is lost — it's frozen for reference, and evolution continues.",
+    lc1:"Initialization, loading of baseline data", lc2:"Real-time sync with the person's decisions",
+    lc3:"Frozen intact at the moment of loss — governance passes to the Family Tree", lc4:"Inherits and keeps evolving, without writing back to the original",
+    "lc-note":"<b>Principle:</b> frozen knowledge belongs to the deceased entity, preserved intact and unfading over time, used as a reference source whenever the Family Tree or AHI-Successor needs to draw on that person's thinking or memory — this is the immortality of the data, not the immortality of the person.",
+    "k-fd":"Founder", "fd-role":"AHI-F — AHI-Founder",
+    fd1:"B.Sc. in Mathematics & Informatics, Vietnam National University, Hanoi", fd2:"MBA; computer hardware training certificate, France",
+    fd3:"Built and delivered the Tratu project, since 2007", fd4:"Researching and developing the AHI project since 2018",
+    fd5:"Has taken part in international business cooperation forums, including the Vietnam–Germany Business Roundtable",
+    "k-ct":"Contact", "h-ct":"Get in touch about AHI.",
+    "f1-h":"PROJECT", "f1-p":"AHI — Artificial Hybrid Intelligence<br>Research & development since 2018",
+    "f2-h":"DOCUMENTATION", "f3-h":"FOUNDER", "f3-p":"Lê Minh Công (AHI-F)<br>Built and delivered the Tratu project, since 2007",
+    "f-status":"Official site in Vietnamese and English. Other languages, where available, exist only as linked documents on GitHub.", "f-pill":"INTERNAL R&D"
+  }
+};
+
+let currentLang = 'vi';
+const toggleBtn = document.getElementById('langToggle');
+
+function applyLang(lang){
+  const dict = translations[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    if(dict[key] !== undefined){ el.innerHTML = dict[key]; }
+  });
+  document.documentElement.lang = lang;
+  toggleBtn.textContent = lang === 'vi' ? 'EN' : 'VI';
+  currentLang = lang;
+}
+
+toggleBtn.addEventListener('click', ()=>{
+  applyLang(currentLang === 'vi' ? 'en' : 'vi');
+});
+
+applyLang('vi');
+</script>
+</body>
+</html>
